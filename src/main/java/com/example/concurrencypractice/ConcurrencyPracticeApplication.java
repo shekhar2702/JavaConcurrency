@@ -3,12 +3,46 @@ package com.example.concurrencypractice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 @SpringBootApplication
 public class ConcurrencyPracticeApplication {
 
     public static void main(String[] args) {
+        List<Thread> allThreads = new ArrayList<>();
+        Runnable reporter = ()->{
+                try {
+                    while (true) {
+                        Thread.sleep(5000);
+                        printThreadStates(allThreads);
+                    }
+                } catch (InterruptedException e) {
+                    System.out.println("Interrupted");
+                    e.printStackTrace();
+                }
+        };
+        Thread monitorThread = new Thread(reporter);
+        //Deamon threads get terminated on completn of the program unlike normal threads which keeps running on the background.
+        //Deamon threads are useful when its monitoring or dependent on other threads running like here.
+        monitorThread.setDaemon(true);
+        monitorThread.start();
+//        allThreads.add(monitorThread);
+//        Runnable reporterReported = ()->{
+//            try {
+//                while (true) {
+//                    Thread.sleep(2000);
+//                    System.out.println(monitorThread.getState());
+//                }
+//            } catch (InterruptedException e) {
+//                System.out.println("Interrupted");
+//                e.printStackTrace();
+//            }
+//        };
+//        Thread monitorMonitorThread = new Thread(reporterReported);
+//        monitorMonitorThread.setDaemon(true);
+//        monitorMonitorThread.start();
         Scanner sc = new Scanner(System.in);
 //        SpringApplication.run(ConcurrencyPracticeApplication.class, args);
         while (true) {
@@ -27,7 +61,17 @@ public class ConcurrencyPracticeApplication {
             //ALternative for above as below:-
             Runnable r = new MyRunnableClass(n);
             Thread t = new Thread(r);
+            allThreads.add(t);
             t.start();
+            //Thread lifecycle:-
+            /*
+            * New
+            * Runnable
+            * Blocked
+            * Waiting
+            * Timed Waiting
+            * Terminated
+             */
 
         }
 
@@ -46,6 +90,12 @@ public class ConcurrencyPracticeApplication {
                 numberCount++;
         }
         return initialNumber;
+    }
+
+    public static void printThreadStates(List<Thread> threads) {
+        for (Thread t : threads) {
+            System.out.println(t.getState());
+        }
     }
 
 }
