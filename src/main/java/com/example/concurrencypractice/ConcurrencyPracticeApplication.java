@@ -26,7 +26,7 @@ public class ConcurrencyPracticeApplication {
         Thread monitorThread = new Thread(reporter);
         //Deamon threads get terminated on completn of the program unlike normal threads which keeps running on the background.
         //Deamon threads are useful when its monitoring or dependent on other threads running like here.
-        monitorThread.setDaemon(true);
+//        monitorThread.setDaemon(true);
         monitorThread.start();
 //        allThreads.add(monitorThread);
 //        Runnable reporterReported = ()->{
@@ -49,9 +49,12 @@ public class ConcurrencyPracticeApplication {
             System.out.println("Enter n to find nth. prime number using super inefficient algorithm:");
             int n = sc.nextInt();
             if (n == 0) {
+                monitorThread.interrupt();
                 try {
                     System.out.println("Intentionally stopping the flow here after this line of code for all threads to finish using join");
                     waitForAllThreadsToComplete(allThreads);
+                    //using Thread.interrupt() a thread can be stopped as shown here.(Removed deamon behaviour on the thread to force interrupt explicitly and see the behaviour)
+//                    monitorThread.interrupt();
                     System.out.println("DOne for the day bro!!!!!!!");
                 }
                 catch (InterruptedException e) {
