@@ -49,7 +49,14 @@ public class ConcurrencyPracticeApplication {
             System.out.println("Enter n to find nth. prime number using super inefficient algorithm:");
             int n = sc.nextInt();
             if (n == 0) {
-                System.out.println("DOne for the day bro!!!!!!!");
+                try {
+                    System.out.println("Intentionally stopping the flow here after this line of code for all threads to finish using join");
+                    waitForAllThreadsToComplete(allThreads);
+                    System.out.println("DOne for the day bro!!!!!!!");
+                }
+                catch (InterruptedException e) {
+                    System.out.println("Exception occured");
+                }
                 break;
             }
 //            Runnable r = new Runnable() {
@@ -74,7 +81,13 @@ public class ConcurrencyPracticeApplication {
              */
 
         }
+        System.out.println("last line of program");
+    }
 
+    public static void waitForAllThreadsToComplete(List<Thread> threads) throws InterruptedException {
+        for(Thread t: threads) {
+            t.join();
+        }
     }
 
     public static int calculatePrime(int n) {
