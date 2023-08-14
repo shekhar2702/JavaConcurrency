@@ -49,10 +49,10 @@ public class ConcurrencyPracticeApplication {
             System.out.println("Enter n to find nth. prime number using super inefficient algorithm:");
             int n = sc.nextInt();
             if (n == 0) {
-                monitorThread.interrupt();
+//                monitorThread.interrupt();//interrupt is used to kill a thread and bring a running thread to end.
                 try {
                     System.out.println("Intentionally stopping the flow here after this line of code for all threads to finish using join");
-                    waitForAllThreadsToComplete(allThreads);
+                    waitForAllThreadsToComplete(allThreads);//join freezes the main thread until all threads are terminated.So the done for the day broo print will only be completed once all thread finish processing.
                     //using Thread.interrupt() a thread can be stopped as shown here.(Removed deamon behaviour on the thread to force interrupt explicitly and see the behaviour)
 //                    monitorThread.interrupt();
                     System.out.println("DOne for the day bro!!!!!!!");
