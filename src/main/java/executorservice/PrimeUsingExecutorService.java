@@ -3,13 +3,29 @@ package executorservice;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 @SpringBootApplication
 public class PrimeUsingExecutorService {
     public static void main(String args[]) {
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
+//        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);//same as above but since the ExecutorService don't provide some specific implementations here I used the specific class.
+        ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(1); //same explanation as above.
+        /*
+        * Types of executors:-FixedThreadPool,CachedThreadPool,ScheduledThreadPool,SingleThreadPool
+        * CachedThreadPool creates new threads on demand unlike FixedThreadPool same is the behaviour with
+        * ScheduledThreadPool but in this some sort of scheduling is also there in addition to cachedThreadPool feature
+        * SingleThreadPool is one in which only 1 thread is alloted and is ran asyncronously.Joked as NodeJS mode.
+        * */
+
+        Runnable monitor = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Total running threads: " + executorService.getActiveCount() + " ,Total completed threads: " + executorService.getCompletedTaskCount());
+            }
+        };
+
+        scheduledThreadPoolExecutor.scheduleAtFixedRate(monitor,1,5, TimeUnit.SECONDS);
 
         Scanner sc = new Scanner(System.in);
         while (true) {
