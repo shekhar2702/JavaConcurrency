@@ -23,11 +23,11 @@ public class ConcurrencyPracticeApplication {
                     e.printStackTrace();
                 }
         };
-        Thread monitorThread = new Thread(reporter);
+//        Thread monitorThread = new Thread(reporter);
         //Deamon threads get terminated on completn of the program unlike normal threads which keeps running on the background.
         //Deamon threads are useful when its monitoring or dependent on other threads running like here.
 //        monitorThread.setDaemon(true);
-        monitorThread.start();
+//        monitorThread.start();
 //        allThreads.add(monitorThread);
 //        Runnable reporterReported = ()->{
 //            try {
@@ -57,7 +57,7 @@ public class ConcurrencyPracticeApplication {
 //                    monitorThread.interrupt();
                     System.out.println("DOne for the day bro!!!!!!!");
                 }
-                catch (InterruptedException e) {
+                catch (Exception e) {
                     System.out.println("Exception occured");
                 }
                 break;
